@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f4f3ee" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121614" media="(prefers-color-scheme: dark)">
+<title>Marcus Woodruff</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='32' fill='%231e6a4c'/><text x='32' y='41.5' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-weight='700' font-size='26' letter-spacing='-.5' fill='%23f4f3ee'>MW</text></svg>">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap">
+
+<style>
+  :root {
+    --bg: #f4f3ee;
+    --card: #fcfbf8;
+    --text: #17201b;
+    --muted: #48514b;
+    --faint: #646c66;
+    --line: rgba(23, 32, 27, .1);
+    --green: #1e6a4c;
+    --game: #1e6a4c;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121614;
+      --card: #1a1f1c;
+      --text: #e8ebe7;
+      --muted: #b4bbb5;
+      --faint: #8d958f;
+      --line: rgba(232, 235, 231, .1);
+      --green: #7cc9a5;
+      --game: #245c45;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Schibsted Grotesk", system-ui, sans-serif;
+  }
+
+  .wrap {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 48px 16px 40px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .intro {
+    margin: 40px 0 0;
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  h2 {
+    margin: 36px 0 12px 4px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--faint);
+  }
+  .intro + h2 { margin-top: 24px; }
+
+  .links {
+    display: grid;
+    gap: 10px;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 22px 10px 10px;
+    border: 1px solid var(--line);
+    border-radius: 40px;
+    background: var(--card);
+    color: var(--text);
+    text-decoration: none;
+    box-shadow: 0 1px 2px rgba(23, 32, 27, .05);
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  @media (hover: hover) {
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--faint);
+      box-shadow: 0 10px 24px -12px rgba(23, 32, 27, .3);
+    }
+  }
+  .btn:active { transform: scale(.985); }
+  .btn:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+
+  .btn img {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    outline: 1px solid var(--line);
+    outline-offset: -1px;
+    background: var(--line);
+  }
+
+  .btn b { display: block; font-size: 17px; font-weight: 650; letter-spacing: -0.01em; }
+  .btn span { display: block; margin-top: 2px; font-size: 15px; line-height: 1.35; color: var(--muted); }
+  .btn strong { color: var(--text); font-weight: 700; }
+  .btn small { display: block; margin-top: 4px; font-size: 13px; color: var(--faint); }
+  .btn .code { font-weight: 600; color: var(--green); }
+
+  .game { margin-top: 22px; border: 0; background: var(--game); color: #f4f3ee; }
+  .game img { width: 64px; height: 64px; border-radius: 15px; }
+  .game b { font-size: 19px; }
+  .game span, .game small { color: #cfe3d8; }
+  .game:focus-visible { outline-color: var(--text); }
+
+  footer {
+    margin-top: 44px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--faint);
+  }
+
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    width: max-content;
+    max-width: calc(100% - 32px);
+    padding: 12px 18px;
+    border-radius: 24px;
+    background: var(--text);
+    color: var(--bg);
+    font-size: 15px;
+    text-align: center;
+    opacity: 0;
+    transform: translate(-50%, 16px);
+    transition: opacity .2s, transform .2s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (min-width: 720px) {
+    .wrap { padding-top: 72px; }
+    h1 { font-size: 46px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn, .toast { transition: none; }
+  }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <h1>Marcus Woodruff</h1>
+
+  <a class="btn game" href="https://apps.apple.com/us/app/snowball-havoc/id6810410884">
+    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/d9/9a/0b/d99a0b99-9bb1-c33c-f898-e30c2ff8d4eb/AppIcon-1x_U007epad-0-11-0-85-220-0.png/160x160bb.png" alt="">
+    <div>
+      <b>Snowball Havoc</b>
+      <span>My game. Roll downhill, get huge, flatten everything.</span>
+      <small>Free on iPhone and iPad</small>
+    </div>
+  </a>
+
+  <p class="intro">Apps I use and the sign-up bonus you get through my links (I get a little something too). If there's a code, tapping copies it for you.</p>
+
+  <h2>Make money</h2>
+  <div class="links">
+    <a class="btn" href="https://www.uber.com/signup/drive/deliver/?invite_code=tgm6vr6">
+      <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/0b/2b/89/0b2b8928-08db-a39f-1b6c-e820c93420dc/AppIcon-0-0-1x_U007emarketing-0-8-0-0-sRGB-85-220.png/144x144bb.png" alt="">
+      <div>
+        <b>Uber Eats</b>
+        <span>An extra <strong>$450</strong> when you finish your first 45 deliveries in 14 days</span>
+      </div>
+    </a>
+    <a class="btn" href="https://drd.sh/nlcTDsr1mmGQSlDj/">
+      <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/e5/f3/f2/e5f3f2b1-d455-1d8e-ad42-c4dbbd179a07/AppIcon-0-0-1x_U007emarketing-0-6-0-85-220.png/144x144bb.png" alt="">
+      <div>
+        <b>DoorDash</b>
+        <span><strong>$400</strong> after 150 deliveries in 60 days</span>
+        <small>Amount varies by city and can change</small>
+      </div>
+    </a>
+    <a class="btn" href="https://www.airbnb.com/rp/marcusw14692?s=76&amp;unique_share_id=8FCA6FCC-C12A-4F40-99E5-77E76FE73F6F">
+      <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/8c/c6/18/8cc6186e-8ef7-358d-04a2-c68a0c341f97/AppIcon-0-0-1x_U007epad-0-1-0-0-0-85-220.png/144x144bb.png" alt="">
+      <div>
+        <b>Airbnb</b>
+        <span><strong>$115</strong> extra after your first booking as a new host</span>
+        <small>Ends Dec 6, 2026</small>
+      </div>
+    </a>
+  </div>
+
+  <h2>Save money</h2>
+  <div class="links">
+    <a class="btn" href="https://www.chime.com/r/marcuswoodruff14/?c=s">
+      <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/95/66/6c/95666c45-ab50-3da1-1967-3d3f83fb99bd/AppIcon-0-0-1x_U007emarketing-0-6-0-85-220.png/144x144bb.png" alt="">
+      <div>
+        <b>Chime</b>
+        <span><strong>$100</strong> after your first $200+ direct deposit</span>
+        <small>Within 45 days of opening, and the card has to be activated</small>
+      </div>
+    </a>
+    <a class="btn" href="https://cash.app/refer/WJMQJN1" data-code="WJMQJN1">
+      <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/ec/cb/17/eccb17b5-0acd-33a0-f06b-c50fffc9f8ec/AppIcon-0-0-1x_U007ephone-0-1-0-sRGB-85-220.png/144x144bb.png" alt="">
+      <div>
+        <b>Cash App</b>
+        <span><strong>$5</strong> when you link a bank and send&nbsp;$5</span>
+        <small class="code">Code WJMQJN1</small>
+      </div>
+    </a>
+    <a class="btn" href="https://upside.app.link/m4jdhny816b" data-code="CQM4MR">
+      <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f9/05/b8/f905b810-1ada-040b-26f3-58d99ab497a4/AppIcon-0-0-1x_U007ephone-0-1-0-85-220.png/144x144bb.png" alt="">
+      <div>
+        <b>Upside</b>
+        <span><strong>15¢/gal</strong> extra on your first fill-up, plus 10% extra on your first restaurant or grocery purchase</span>
+        <small class="code">Code CQM4MR</small>
+      </div>
+    </a>
+    <a class="btn" href="https://referral.fetch.com/vvv3/share?code=YCAKHY">
+      <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/17/19/3c/17193c00-e512-1709-08f7-ecc4dae0bdb3/AppIcon-0-0-1x_U007epad-0-0-0-1-0-0-85-220.png/144x144bb.png" alt="">
+      <div>
+        <b>Fetch</b>
+        <span>Snap receipts and earn gift cards. Bonus points on your first receipt</span>
+      </div>
+    </a>
+  </div>
+
+  <h2>Food &amp; clothes</h2>
+  <div class="links">
+    <a class="btn" href="https://app.inkind.com/refer/NPAFZ3XX">
+      <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/25/c0/bc/25c0bcdb-5a4f-62aa-ca21-fb611a6f97f0/AppIcon_Prod-0-0-1x_U007emarketing-0-11-0-85-220.png/144x144bb.png" alt="">
+      <div>
+        <b>inKind</b>
+        <span><strong>$25</strong> to spend at restaurants</span>
+      </div>
+    </a>
+    <a class="btn" href="https://snag.fyi/app" data-code="MARCUS419">
+      <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/af/ea/0a/afea0a99-3b74-ec01-839b-a4899e7f2ccb/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/144x144bb.png" alt="">
+      <div>
+        <b>Snag</b>
+        <span>Food and drinks in 15 minutes. <strong>50%&nbsp;off</strong> your first order, up to $10</span>
+        <small class="code">Code MARCUS419</small>
+      </div>
+    </a>
+    <a class="btn" href="https://vtlapparel.com/discount/Marcusbrahhh">
+      <img src="https://vtlapparel.com/cdn/shop/files/favicon_logo.jpg?width=144" alt="">
+      <div>
+        <b>Vital Apparel</b>
+        <span>Gym clothes. My discount is added at checkout</span>
+        <small>Part of every order goes to mental health</small>
+      </div>
+    </a>
+  </div>
+
+  <footer>
+    Bonuses are set by each company and can change. Terms apply.
+  </footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const toast = document.getElementById('toast')
+
+  function copy(text) {
+    if (navigator.clipboard) {
+      return navigator.clipboard.writeText(text).then(() => true, () => oldCopy(text))
+    }
+    return Promise.resolve(oldCopy(text))
+  }
+
+  // for in-app browsers that block the clipboard api
+  function oldCopy(text) {
+    const t = document.createElement('textarea')
+    t.value = text
+    t.style.cssText = 'position:fixed;top:0;opacity:0;font-size:16px'
+    document.body.append(t)
+    t.select()
+    let ok = false
+    try { ok = document.execCommand('copy') } catch (e) {}
+    t.remove()
+    return ok
+  }
+
+  document.querySelectorAll('a[data-code]').forEach(link => {
+    link.addEventListener('click', e => {
+      // second tap after a failed copy just goes through
+      if (e.metaKey || e.ctrlKey || e.shiftKey || link.dataset.shown) return
+      e.preventDefault()
+
+      const code = link.dataset.code
+      copy(code).then(ok => {
+        toast.classList.add('show')
+        if (ok) {
+          toast.textContent = `Copied ${code}, paste it in the app`
+          setTimeout(() => {
+            location.href = link.href
+            setTimeout(() => toast.classList.remove('show'), 1500)
+          }, 1000)
+        } else {
+          toast.textContent = `Your code is ${code}. Tap again to continue`
+          link.dataset.shown = 1
+          setTimeout(() => toast.classList.remove('show'), 4000)
+        }
+      })
+    })
+  })
+
+  // coming back with the back button
+  addEventListener('pageshow', () => toast.classList.remove('show'))
+</script>
+</body>
+</html>
